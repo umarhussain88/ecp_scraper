@@ -10,7 +10,7 @@ cd /home/umarh/ecp_scraper
 export LC_ALL=en_US.utf-8
 
 # run the spider
-/home/umarh/.local/bin/pipenv run scrapy crawl parts -o "output/%(time)s_parts.json"
+/usr/local/bin/pipenv run scrapy crawl parts -o "output/%(time)s_parts.json"
 
 # get the end date and time
 end_datetime=$(date '+%m_%d_%Y_%H_%M_%S')
