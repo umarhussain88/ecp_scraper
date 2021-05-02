@@ -30,6 +30,7 @@ pyOpenSSL = "==19.1.0"
 Scrapy = "==2.2.0"
 service_identity = "==18.1.0"
 Twisted = "==20.3.0"
+pandas = "*"
 
 [dev-packages]
 
