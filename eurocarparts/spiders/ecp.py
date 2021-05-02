@@ -11,7 +11,7 @@ class PartsSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        nav_links = response.xpath('//ul[@class="outer-ul"]/li/a/@href').extract()
+        nav_links = response.xpath('//ul[@class="outer-ul "]/li/a/@href').extract()
         nav_links = [
             l for l in nav_links if l.startswith("h")
         ]  # remove drop down links.

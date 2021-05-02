@@ -21,6 +21,10 @@ NEWSPIDER_MODULE = 'eurocarparts.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+#log files
+LOG_STDOUT = True
+LOG_FILE = '/tmp/scrapy_output.txt'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
