@@ -1,7 +1,7 @@
 from typing import Optional
-import pandas as pd 
-from pathlib import Path 
-import json 
+import pandas as pd
+from pathlib import Path
+import json
 
 
 def create_tabular_files(src_path : Optional[str] = 'output') -> None:
@@ -17,7 +17,7 @@ def create_tabular_files(src_path : Optional[str] = 'output') -> None:
             trg_path = Path(file.parent).joinpath(f"{file.stem}.csv")
             df.to_csv(trg_path,index=False)
             # remove src json file, no need for this anymore.
-            file.unlink() 
+            file.unlink()
 
 if __name__ == '__main__':
     create_tabular_files()
