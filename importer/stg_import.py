@@ -1,12 +1,14 @@
 from pathlib import Path
-import json
 import os 
 import urllib
 import logging
+from requests import get
+import sys 
 
 import pandas as pd
 from sqlalchemy import create_engine
 import pyodbc
+from sqlalchemy.exc import ProgrammingError
 
 file_dt = pd.Timestamp('now').strftime('%Y_%m_%d-%H%M%S')
 log_path = Path(__file__).parent.parent.joinpath('logs',f'{file_dt}_export.log')
@@ -40,7 +42,13 @@ def import_data():
     df = pd.concat([pd.read_csv(f) for f in files])
 
     logging.info('Writing to Azure DB')
-    df.to_sql('product_data',schema='stg_ecp',con=engine_azure,if_exists='replace',index=False)
+
+    try:
+        df.to_sql('product_data',schema='stg_ecp',con=engine_azure,if_exists='replace',index=False)
+    except ProgrammingError:
+        ip = get('https://api.ipify.org').text
+        logging.fatal(f'Program failed due to firewall rule mistach current IP address is - {ip}')
+        sys.exit(1)
 
     logging.info(f'Executing dim Product with {key}')
     engine_azure.execute('stg_ecp.p_InsertDwDimProduct ?', [str(key)])

@@ -33,6 +33,7 @@ Twisted = "==20.3.0"
 pandas = "*"
 sqlalchemy = "*"
 pyodbc = "*"
+requests = "*"
 
 [dev-packages]
 
