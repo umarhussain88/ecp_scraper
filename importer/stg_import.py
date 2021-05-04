@@ -50,10 +50,11 @@ def import_data():
         logging.fatal(f'Program failed due to firewall rule mistach current IP address is - {ip}')
         sys.exit(1)
 
-    logging.info(f'Executing dim Product with {key}')
-    engine_azure.execute('stg_ecp.p_InsertDwDimProduct ?', [str(key)])
-    logging.info(f'Executing fact ProductPrices with {key}')
-    engine_azure.execute('stg_ecp.p_InsertDwFactProductPrices ?', [str(key)])
+    with engine_azure.begin() as conn:
+        logging.info(f'Executing dim Product with {key}')
+        conn.execute('stg_ecp.p_InsertDwDimProduct ?', [str(key)])
+        logging.info(f'Executing fact ProductPrices with {key}')
+        conn.execute('stg_ecp.p_InsertDwFactProductPrices ?', [str(key)])
 
     key += 1 
     logging.info(f'updating key with value {key}')
