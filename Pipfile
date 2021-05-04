@@ -31,6 +31,8 @@ Scrapy = "==2.2.0"
 service_identity = "==18.1.0"
 Twisted = "==20.3.0"
 pandas = "*"
+sqlalchemy = "*"
+pyodbc = "*"
 
 [dev-packages]
 
