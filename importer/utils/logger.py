@@ -26,10 +26,11 @@ logger.addHandler(stream_handler)
 
 
 def rm_old_logs(log_path: Optional[Path] = log_path) -> None:
-    
+
     for file in log_path.glob('*'):
         file_ts = file.stat().st_mtime
         file_delta = Timestamp('now') - Timestamp(file_ts)
         if file_delta.days > 14:
             file.unlink()
+            logger.info(f'removing {file.stem}')
 
