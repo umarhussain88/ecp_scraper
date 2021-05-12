@@ -6,7 +6,8 @@ import pandas as pd
 from requests import get
 from sqlalchemy.exc import ProgrammingError
 
-from utils import create_sql_engine, insert_job, logger, rm_old_logs
+from utils import create_sql_engine, insert_job, logger
+from utils.logger import rm_old_logs
 
 
 
