@@ -10,8 +10,8 @@ from utils import create_sql_engine, insert_job, logger
 
 
 
+# logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 def import_data():
@@ -23,11 +23,11 @@ def import_data():
     logger.info(f"Writing {', '.join([f.stem for f in files])} to Azure DB")
 
     try:
-        stg_key = insert_job('inserting stg product data',engine_azure)
+        job_key = insert_job('Inserting stage data and executing dim/fact procs.',engine_azure)
         df.to_sql('product_data', schema='stg_ecp', con=engine_azure,
                   if_exists='replace', index=False)
         with engine_azure.begin() as conn:
-            conn.execute('etl_audit.p_UpdateJob ?,?', [str(stg_key), 'Success'])
+            conn.execute('etl_audit.p_UpdateJob ?,?', [str(job_key), 'Success'])
 
     except ProgrammingError:
         ip = get('https://api.ipify.org').text
@@ -38,11 +38,9 @@ def import_data():
     with engine_azure.begin() as conn:
         # log success of insert stg table. 
 
-        dim_product_key = insert_job('executing insert dim product proc',engine_azure)
-        logger.info(f'Executing dim Product with {dim_product_key}')
+        logger.info(f'Executing dim Product with {job_key}')
 
-        fact_product = insert_job('executing insert fact product prices proc',engine_azure)
-        logger.info(f'Executing fact ProductPrices with {fact_product}')
+        logger.info(f'Executing fact ProductPrices with {job_key}')
 
 
 if __name__ == '__main__':
