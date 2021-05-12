@@ -23,7 +23,7 @@ def import_data():
     logger.info(f"Writing {', '.join([f.stem for f in files])} to Azure DB")
 
     try:
-        job_key = insert_job('Inserting stage data and executing dim/fact procs.',engine_azure)
+        job_key = insert_job('Inserting stage data and executing dim/fact',engine_azure)
         df.to_sql('product_data', schema='stg_ecp', con=engine_azure,
                   if_exists='replace', index=False)
         with engine_azure.begin() as conn:
@@ -39,8 +39,9 @@ def import_data():
         # log success of insert stg table. 
 
         logger.info(f'Executing dim Product with {job_key}')
-
+        conn.execute('stg_ecp.p_InsertDwDimProduct ?', [str(key)])
         logger.info(f'Executing fact ProductPrices with {job_key}')
+        conn.execute('stg_ecp.p_InsertDwFactProductPrices ?', [str(job_key)])
 
 
 if __name__ == '__main__':
