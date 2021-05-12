@@ -37,7 +37,7 @@ def import_data():
         # log success of insert stg table. 
 
         logger.info(f'Executing dim Product with {job_key}')
-        conn.execute('stg_ecp.p_InsertDwDimProduct ?', [str(key)])
+        conn.execute('stg_ecp.p_InsertDwDimProduct ?', [str(job_key)])
         logger.info(f'Executing fact ProductPrices with {job_key}')
         conn.execute('stg_ecp.p_InsertDwFactProductPrices ?', [str(job_key)])
 
