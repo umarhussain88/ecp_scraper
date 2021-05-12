@@ -26,8 +26,6 @@ def import_data():
         job_key = insert_job('Inserting stage data and executing dim/fact',engine_azure)
         df.to_sql('product_data', schema='stg_ecp', con=engine_azure,
                   if_exists='replace', index=False)
-        with engine_azure.begin() as conn:
-            conn.execute('etl_audit.p_UpdateJob ?,?', [str(job_key), 'Success'])
 
     except ProgrammingError:
         ip = get('https://api.ipify.org').text
