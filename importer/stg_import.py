@@ -38,11 +38,11 @@ def import_data():
     conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
     engine_azure = create_engine(conn_str, fast_executemany=True)
 
-    files = Path(__file__).parent.parent.joinpath('output').glob('*.csv*')
+    files = list(Path(__file__).parent.parent.joinpath('output').glob('*.csv*'))
 
     df = pd.concat([pd.read_csv(f) for f in files])
 
-    logging.info(f'Writing {[f.stem for f in files]} to Azure DB')
+    logging.info(f"Writing {', '.join([f.stem for f in files])} to Azure DB")
 
     try:
         df.to_sql('product_data', schema='stg_ecp', con=engine_azure,
