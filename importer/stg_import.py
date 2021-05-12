@@ -6,7 +6,7 @@ import pandas as pd
 from requests import get
 from sqlalchemy.exc import ProgrammingError
 
-from utils import create_sql_engine, insert_job, logger
+from utils import create_sql_engine, insert_job, logger, rm_old_logs
 
 
 
@@ -23,7 +23,7 @@ def import_data():
     logger.info(f"Writing {', '.join([f.stem for f in files])} to Azure DB")
 
     try:
-        job_key = insert_job('Inserting stage data and executing dim/fact',engine_azure)
+        job_key = insert_job('ecp spider',engine_azure)
         df.to_sql('product_data', schema='stg_ecp', con=engine_azure,
                   if_exists='replace', index=False)
 
@@ -44,3 +44,4 @@ def import_data():
 
 if __name__ == '__main__':
     import_data()
+    rm_old_logs()
