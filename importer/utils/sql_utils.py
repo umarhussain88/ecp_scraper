@@ -8,11 +8,11 @@ import urllib
 def insert_job(activity_summary: str, azure_sql_engine: Engine) -> int:
     """Returns a job key from the sql database"""
 
-    sql_string = f"""DECLARE @Jobkey INT
-                EXEC etl_audit.p_InsertJob 'ecp', '{activity_summary}',
+    sql_string = """DECLARE @Jobkey INT
+                EXEC etl_audit.p_InsertJob 'ecp', '%s',
                 @Jobkey = @Jobkey OUT
                 SELECT jobkey = @Jobkey
-                """
+                """ % activity_summary
                     
     with azure_sql_engine.begin() as conn:
         job_exec = conn.execute(sql_string)
