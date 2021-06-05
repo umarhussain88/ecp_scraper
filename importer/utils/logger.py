@@ -30,7 +30,8 @@ def rm_old_logs(log_path: Optional[Path] = log_path.parent) -> None:
     for file in log_path.glob('*'):
         file_ts = file.stat().st_mtime
         file_delta = Timestamp('now') - Timestamp(file_ts,unit='s')
-        if file_delta.days > 14:
+#        logger.info(file_delta.days)
+        if file_delta.days > 3:
             file.unlink()
             logger.info(f'removing {file.stem}')
 
