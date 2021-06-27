@@ -12,8 +12,8 @@ echo "creating a tabular csv to upload"
 /usr/local/bin/pipenv run python importer/import.py
 echo "json files removed"
 # upload csv files into azure. 
-/usr/local/bin/pipenv run python importer/stg_import.py
-echo "files loaded into db and procs updated."
+# /usr/local/bin/pipenv run python importer/stg_import.py
+# echo "files loaded into db and procs updated."
 # get the end date and time
 end_datetime=$(date '+%m_%d_%Y_%H_%M_%S')
 echo "${end_datetime} - spider finished successfully"
